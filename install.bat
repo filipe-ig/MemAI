@@ -1,0 +1,24 @@
+@echo off
+setlocal
+cd /d "%~dp0"
+
+if not exist .venv (
+    echo Creating virtual environment...
+    py -3 -m venv .venv 2>nul || python -m venv .venv
+)
+if not exist .venv\Scripts\activate.bat (
+    echo Failed to create .venv -- is Python 3.11+ on PATH?
+    exit /b 1
+)
+
+call .venv\Scripts\activate.bat
+python -m pip install --upgrade pip
+pip install -e ".[dev]"
+if errorlevel 1 (
+    echo.
+    echo Install failed.
+    exit /b 1
+)
+
+echo.
+echo Done. Run run-admin.bat to start the admin dashboard.

@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "memai"
+version = "0.1.0"
+description = "Custom long-term memory MCP server (SQLite + FTS5 + sqlite-vec hybrid retrieval, local model2vec embeddings)"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp>=1.2.0",
+    "sqlite-vec>=0.1.6",
+    "model2vec>=0.3.0",
+    "numpy>=1.26",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+memai-mcp = "memai.server:main"
+memai-admin = "memai.admin:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/memai"]
+artifacts = ["src/memai/models/**"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
